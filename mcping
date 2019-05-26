@@ -48,16 +48,18 @@ while (1) {
     
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
+        $host_history[ $host_nr ] = substr $host_history[ $host_nr ], 0, 20;
 
         # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
+        $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
 
         # Show screen updates
         $win->refresh;
 
         # Short sleep before the next try
-        usleep( 500_000 );
+        usleep( 100_000 );
 
         $host_nr++;
 
