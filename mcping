@@ -45,6 +45,9 @@ while (1) {
 
         # Ping this host
         my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
+
+        # Demo purpose
+        #$ret = rand() > 0.1;
     
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
