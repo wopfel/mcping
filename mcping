@@ -51,7 +51,7 @@ while (1) {
     
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
-        $host_history[ $host_nr ] = substr $host_history[ $host_nr ], 0, 20;
+        $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
 
         # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
