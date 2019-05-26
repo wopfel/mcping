@@ -19,9 +19,11 @@ my $ping = Net::Ping->new();
 $ping->hires();
 
 # Screen settings
-my $first_line_y = 10;
+my $first_line_y = 5;
 # For iterating the host list
 my $host_nr;
+
+$win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
 
 # Print host names / IP addresses
 $host_nr = 0;
@@ -37,7 +39,8 @@ foreach my $host ( @hostlist ) {
 
     my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
     
-    $win->addstr( $first_line_y + $host_nr, 15, $dur );
+    my $dur_s = sprintf( "%.7f", $dur );
+    $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
     $win->refresh;
 
     usleep( 500_000 );
@@ -45,8 +48,6 @@ foreach my $host ( @hostlist ) {
     $host_nr++;
 
 }
-
-sleep 2;
 
 # Terminate curses
 endwin;
