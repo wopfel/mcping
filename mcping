@@ -38,6 +38,12 @@ $duration_history[$_] = () for (0 .. scalar @hostlist);
 
 $win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
 
+$win->addstr( $first_line_y - 1,  0, "Host address" );
+$win->addstr( $first_line_y - 1, 15, "Current [ms]" );
+$win->addstr( $first_line_y - 1, 30, "History graph" );
+$win->addstr( $first_line_y - 1, 55, "Success" );
+$win->addstr( $first_line_y - 1, 65, "Avg [ms]" );
+
 # Print host names / IP addresses
 $host_nr = 0;
 foreach my $host ( @hostlist ) {
