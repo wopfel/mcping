@@ -39,6 +39,14 @@ $win->refresh;
 # Endless loop
 while (1) {
 
+    # Strip history for each host
+    $host_nr = 0;
+    foreach my $host ( @hostlist ) {
+        $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
+        $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
+        $host_nr++;
+    }
+
     # Ping each host
     $host_nr = 0;
     foreach my $host ( @hostlist ) {
@@ -51,7 +59,6 @@ while (1) {
     
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
-        $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
 
         # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
