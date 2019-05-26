@@ -46,6 +46,8 @@ foreach my $host ( @hostlist ) {
 }
 $win->refresh;
 
+my $loop_nr = 0;
+
 # Endless loop
 while (1) {
 
@@ -122,6 +124,8 @@ while (1) {
         $host_nr++;
 
     }
+
+    $loop_nr++;
 
 }
 
