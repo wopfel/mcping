@@ -35,6 +35,9 @@ $host_history[$_] = "" for (0 .. scalar @hostlist);
 # Duration history for each host
 my @duration_history;
 $duration_history[$_] = () for (0 .. scalar @hostlist);
+# Received pings for each host
+my @received_pings;
+$received_pings[$_] = 0 for (0 .. scalar @hostlist);
 
 $win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
 
@@ -43,6 +46,7 @@ $win->addstr( $first_line_y - 1, 15, "Current [ms]" );
 $win->addstr( $first_line_y - 1, 30, "History graph" );
 $win->addstr( $first_line_y - 1, 55, "Success" );
 $win->addstr( $first_line_y - 1, 65, "Avg [ms]" );
+$win->addstr( $first_line_y - 1, 75, "Rcvd#" );
 
 # Print host names / IP addresses
 $host_nr = 0;
@@ -76,6 +80,10 @@ while (1) {
         # Record history and limit size
         push @{ $duration_history[ $host_nr ] }, ( $ret ? $dur : undef );
         shift @{ $duration_history[ $host_nr ] }  while  ( scalar( @{ $duration_history[ $host_nr ] } ) > 20 );
+
+        # Count successful pings
+        $received_pings[ $host_nr ]++  if  $ret;
+        my $received_pings_s = sprintf( "%5d", $received_pings[ $host_nr ] );
 
         # Demo purpose
         #$ret = rand() > 0.1;
@@ -121,6 +129,7 @@ while (1) {
         $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
         $win->addstr( $first_line_y + $host_nr, 55, $successrate_s );
         $win->addstr( $first_line_y + $host_nr, 65, $avg_duration_s );
+        $win->addstr( $first_line_y + $host_nr, 75, $received_pings_s );
 
         # Show screen updates
         $win->refresh;
