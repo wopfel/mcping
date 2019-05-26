@@ -8,14 +8,14 @@ use Time::HiRes qw( usleep );
 use Net::Ping;
 
 # Which hosts should be pinged?
-my @hostlist = qw / 127.0.0.1 127.0.0.2 127.0.0.3 /;
+my @hostlist = qw / 127.0.0.1 127.0.0.2 127.0.0.3 8.8.8.8 127.0.0.4 172.16.0.1 /;
 
 # Initialize the screen
 initscr;
 my $win = new Curses;
 
 # Initialize ping environment
-my $ping = Net::Ping->new();
+my $ping = Net::Ping->new( "icmp" );
 $ping->hires();
 
 # Screen settings
