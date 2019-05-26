@@ -62,7 +62,7 @@ while (1) {
         $host_history[ $host_nr ] .= $ret ? "." : "-";
 
         # Screen updates
-        my $dur_s = sprintf( "%.7f", $dur );
+        my $dur_s = sprintf( "%9.4f", $dur * 1000 );
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
         $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
 
