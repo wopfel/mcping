@@ -33,19 +33,24 @@ foreach my $host ( @hostlist ) {
 }
 $win->refresh;
 
-# Ping each host
-$host_nr = 0;
-foreach my $host ( @hostlist ) {
+# Endless loop
+while (1) {
 
-    my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
+    # Ping each host
+    $host_nr = 0;
+    foreach my $host ( @hostlist ) {
+
+        my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
     
-    my $dur_s = sprintf( "%.7f", $dur );
-    $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
-    $win->refresh;
+        my $dur_s = sprintf( "%.7f", $dur );
+        $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
+        $win->refresh;
 
-    usleep( 500_000 );
+        usleep( 500_000 );
 
-    $host_nr++;
+        $host_nr++;
+
+    }
 
 }
 
