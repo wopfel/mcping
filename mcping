@@ -22,6 +22,9 @@ $ping->hires();
 my $first_line_y = 5;
 # For iterating the host list
 my $host_nr;
+# The history for each host
+my @host_history;
+$host_history[$_] = "" for (0 .. scalar @hostlist);
 
 $win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
 
@@ -43,6 +46,9 @@ while (1) {
         # Ping this host
         my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
     
+        # History diagram
+        $host_history[ $host_nr ] = ( $ret ? "." : "-" ) . $host_history[ $host_nr ];
+
         # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
