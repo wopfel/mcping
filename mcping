@@ -40,6 +40,7 @@ $win->refresh;
 while (1) {
 
     # Strip history for each host
+    # No screen update here / defer update after next ping check
     $host_nr = 0;
     foreach my $host ( @hostlist ) {
         $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
