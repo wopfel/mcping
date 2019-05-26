@@ -61,6 +61,20 @@ while (1) {
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
 
+        # Calculate success rate
+        my $successful_pings = 0;
+        my $ping_count = length( $host_history[ $host_nr ] );
+        for my $i ( 1 .. $ping_count ) {
+            my $char = substr( $host_history[ $host_nr ], $i - 1, 1 );
+            $successful_pings++ if $char eq ".";
+        }
+        my $successrate_s;
+        if ( $ping_count > 0 ) {
+            $successrate_s = sprintf( "%5.1f%%", $successful_pings / $ping_count * 100 );
+        } else {
+            $successrate_s = " " x 6;
+        }
+
         # Screen updates
         my $dur_s = "";
         if ( $ret ) {
@@ -72,6 +86,7 @@ while (1) {
         }
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
         $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
+        $win->addstr( $first_line_y + $host_nr, 55, $successrate_s );
 
         # Show screen updates
         $win->refresh;
