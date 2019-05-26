@@ -40,12 +40,15 @@ while (1) {
     $host_nr = 0;
     foreach my $host ( @hostlist ) {
 
+        # Ping this host
         my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
     
+        # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
         $win->refresh;
 
+        # Short sleep before the next try
         usleep( 500_000 );
 
         $host_nr++;
