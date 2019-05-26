@@ -11,7 +11,7 @@ sub assert( $ ) {
     my $condition = shift;
     return if $condition;
     my ( $pkg, $file, $line ) = caller( 0 );
-    die "Assertion failed! Pkg = $pkg, File = $file, Line = $line.";
+    die "Assertion failed! Line: $line.";
 }
 
 # Which hosts should be pinged?
