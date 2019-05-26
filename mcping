@@ -32,6 +32,9 @@ my $host_nr;
 # The history for each host
 my @host_history;
 $host_history[$_] = "" for (0 .. scalar @hostlist);
+# Duration history for each host
+my @duration_history;
+$duration_history[$_] = () for (0 .. scalar @hostlist);
 
 $win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
 
@@ -62,11 +65,26 @@ while (1) {
         # Ping this host
         my ( $ret, $dur, $ip ) = $ping->ping( $host );
 
+        # Record history
+        push @{ $duration_history[ $host_nr ] }, ( $ret ? $dur : undef );
+
         # Demo purpose
         #$ret = rand() > 0.1;
     
         # History diagram
         $host_history[ $host_nr ] .= $ret ? "." : "-";
+
+        # Calculate average duration
+        my $avg_duration = 0;
+        my $avg_duration_count = 0;
+        for my $i ( @{ $duration_history[ $host_nr ] } ) {
+            next unless $i;
+            $avg_duration += $i;
+            $avg_duration_count++;
+        }
+        $avg_duration /= $avg_duration_count  if  $avg_duration_count > 0;
+        my $avg_duration_s = sprintf( "%9.4f", $avg_duration * 1000 );
+        $avg_duration_s = " " x 9  if  $avg_duration == 0;
 
         # Calculate success rate
         my $successful_pings = 0;
@@ -92,6 +110,7 @@ while (1) {
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
         $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
         $win->addstr( $first_line_y + $host_nr, 55, $successrate_s );
+        $win->addstr( $first_line_y + $host_nr, 65, $avg_duration_s );
 
         # Show screen updates
         $win->refresh;
