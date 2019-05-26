@@ -7,15 +7,20 @@ use Curses;
 use Time::HiRes qw( usleep );
 use Net::Ping;
 
-initscr;
-
+# Which hosts should be pinged?
 my @hostlist = qw / 127.0.0.1 127.0.0.2 127.0.0.3 /;
 
+# Initialize the screen
+initscr;
 my $win = new Curses;
+
+# Initialize ping environment
 my $ping = Net::Ping->new();
 $ping->hires();
 
+# Screen settings
 my $first_line_y = 10;
+# For iterating the host list
 my $host_nr;
 
 # Print host names / IP addresses
@@ -26,7 +31,7 @@ foreach my $host ( @hostlist ) {
 }
 $win->refresh;
 
-
+# Ping each host
 $host_nr = 0;
 foreach my $host ( @hostlist ) {
 
@@ -43,5 +48,6 @@ foreach my $host ( @hostlist ) {
 
 sleep 2;
 
+# Terminate curses
 endwin;
 
