@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Curses;
+#use Time::HiRes;
+use Time::HiRes qw( usleep );
+use Net::Ping;
+
+initscr;
+
+my @hostlist = qw / 127.0.0.1 127.0.0.2 127.0.0.3 /;
+
+my $win = new Curses;
+my $ping = Net::Ping->new();
+$ping->hires();
+
+my $first_line_y = 10;
+my $host_nr = 0;
+
+foreach my $host ( @hostlist ) {
+
+    my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
+    
+    $win->addstr( $first_line_y + $host_nr, 10, $dur );
+    $win->refresh;
+
+#sleep 2;
+    usleep( 500_000 );
+
+    $host_nr++;
+
+}
+
+endwin;
+
+
