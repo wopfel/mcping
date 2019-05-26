@@ -65,8 +65,9 @@ while (1) {
         # Ping this host
         my ( $ret, $dur, $ip ) = $ping->ping( $host );
 
-        # Record history
+        # Record history and limit size
         push @{ $duration_history[ $host_nr ] }, ( $ret ? $dur : undef );
+        shift @{ $duration_history[ $host_nr ] }  while  ( scalar( @{ $duration_history[ $host_nr ] } ) > 20 );
 
         # Demo purpose
         #$ret = rand() > 0.1;
