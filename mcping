@@ -52,6 +52,8 @@ while (1) {
         # Screen updates
         my $dur_s = sprintf( "%.7f", $dur );
         $win->addstr( $first_line_y + $host_nr, 15, $dur_s );
+
+        # Show screen updates
         $win->refresh;
 
         # Short sleep before the next try
