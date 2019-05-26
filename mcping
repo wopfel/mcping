@@ -81,6 +81,7 @@ while (1) {
         my $avg_duration = 0;
         my $avg_duration_count = 0;
         for my $i ( @{ $duration_history[ $host_nr ] } ) {
+            # Skip undefined values (resulting from a missed ping)
             next unless $i;
             $avg_duration += $i;
             $avg_duration_count++;
