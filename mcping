@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Curses;
-#use Time::HiRes;
 use Time::HiRes qw( usleep );
 use Net::Ping;
 
@@ -17,22 +16,32 @@ my $ping = Net::Ping->new();
 $ping->hires();
 
 my $first_line_y = 10;
-my $host_nr = 0;
+my $host_nr;
 
+# Print host names / IP addresses
+$host_nr = 0;
+foreach my $host ( @hostlist ) {
+    $win->addstr( $first_line_y + $host_nr, 0, $host );
+    $host_nr++;
+}
+$win->refresh;
+
+
+$host_nr = 0;
 foreach my $host ( @hostlist ) {
 
     my ( $ret, $dur, $ip ) = $ping->ping( $host, 2 );
     
-    $win->addstr( $first_line_y + $host_nr, 10, $dur );
+    $win->addstr( $first_line_y + $host_nr, 15, $dur );
     $win->refresh;
 
-#sleep 2;
     usleep( 500_000 );
 
     $host_nr++;
 
 }
 
-endwin;
+sleep 2;
 
+endwin;
 
