@@ -19,11 +19,19 @@ use Time::HiRes qw( usleep );
 use Net::Ping;
 use Getopt::Long;
 
+
+################################################################
+# Global variables
+
 # All hosts which should be checked
 my @hostlist;
 
 # Options
 my $opt_h;
+
+
+################################################################
+# Subroutines
 
 sub assert( $ ) {
     my $condition = shift;
@@ -86,6 +94,10 @@ sub check_args() {
     @hostlist = @ARGV;
 
 }
+
+
+################################################################
+# Main program
 
 # Check command line args
 check_args;
