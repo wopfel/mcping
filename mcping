@@ -1,5 +1,16 @@
 #!/usr/bin/perl
 
+################################################################
+#
+#  Copyright (C) 2019 Bernd Arnold
+#  https://github.com/wopfel/mcping
+#
+#  Ping multiple hosts, curses interface
+#
+#  See file LICENSE for license information
+#
+################################################################
+
 use strict;
 use warnings;
 
