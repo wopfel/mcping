@@ -151,7 +151,7 @@ while (1) {
     $host_nr = 0;
     foreach my $host ( @hostlist ) {
         $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
-        $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] );
+        $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] . " " );
         $host_nr++;
     }
 
