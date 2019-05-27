@@ -18,6 +18,9 @@ use Curses;
 use Time::HiRes qw( usleep );
 use Net::Ping;
 
+# All hosts which should be checked
+my @hostlist;
+
 sub assert( $ ) {
     my $condition = shift;
     return if $condition;
@@ -36,13 +39,20 @@ sub usage( $ ) {
     exit 1;
 }
 
-# Check command line arguments
-if ( scalar @ARGV == 0 ) {
-    usage "no hosts defined";
+sub check_args() {
+
+    # No sense if no hosts specified
+    if ( scalar @ARGV == 0 ) {
+        usage "no hosts defined";
+    }
+
+    # Take host list from command line args
+    @hostlist = @ARGV;
+
 }
 
-# Take host list from command line args
-my @hostlist = @ARGV;
+# Check command line args
+check_args;
 
 # Initialize the screen
 initscr;
