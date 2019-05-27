@@ -15,3 +15,7 @@ I was missing an MTR-like program, having multiple hosts in a nice UI and pingin
 
 This requires root privileges.
 
+## Notes
+The program requires a screen size of at least 80 x (number of hosts + some more lines).
+This isn't checked by now. If the screen looks weird, well, that could be the cause.
+
