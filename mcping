@@ -28,6 +28,7 @@ my @hostlist;
 
 # Options
 my $opt_h;
+my $opt_loop_limit = 0;            # Limit the number of loops. Default: program runs endlessly
 
 
 ################################################################
@@ -61,6 +62,7 @@ sub print_help() {
         
         OPTIONS
         -h, --help: Show this help text
+        -l, --looplimit LIMIT: End the program after LIMIT loops; default (0) is endless
         };
 
     # Strip white space at the beginning
@@ -73,7 +75,8 @@ sub check_args() {
 
     Getopt::Long::Configure('bundling');
     my $getopt_status = GetOptions(
-        "h"   => \$opt_h,     "help" => \$opt_h,
+        "h"   => \$opt_h,              "help"             => \$opt_h,
+        "l=i" => \$opt_loop_limit,     "opt_loop_limit=i" => \$opt_loop_limit,
     );
 
     if ( ! $getopt_status ) {
@@ -84,6 +87,8 @@ sub check_args() {
         print_help();
         exit 1;
     }
+
+    usage "loop limit must be 0 or greater"  if  $opt_loop_limit < 0;
 
     # No sense if no hosts specified
     if ( scalar @ARGV == 0 ) {
@@ -227,6 +232,9 @@ while (1) {
     }
 
     $loop_nr++;
+
+    # End loop if limit is reached (0: no limit / endlessly)
+    last if $opt_loop_limit != 0 and $loop_nr >= $opt_loop_limit;
 
 }
 
