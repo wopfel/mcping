@@ -13,6 +13,8 @@ I was missing an MTR-like program, having multiple hosts in a nice UI and pingin
 ## Usage
 `sudo ./mcping 127.0.0.1 127.0.0.2 127.0.0.3 8.8.8.8 127.0.0.4 172.16.0.1`
 
+![Sample screen gif](images/mcping-example.gif)
+
 This requires root privileges.
 
 ## Notes
