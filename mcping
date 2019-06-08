@@ -21,18 +21,25 @@ use Getopt::Long;
 
 
 ################################################################
-# Global variables
+##
+##  Global variables
+##
 
 # All hosts which should be checked
 my @hostlist;
 
 # Options
 my $opt_h;
-my $opt_loop_limit = 0;            # Limit the number of loops. Default: program runs endlessly
+my $opt_loop_limit = 0;            # Limit the number of loops. Default: no limit (program runs endlessly)
+
+# Screen settings
+my $first_line_y = 5;
 
 
 ################################################################
-# Subroutines
+##
+##  Subroutines
+##
 
 sub assert( $ ) {
     my $condition = shift;
@@ -100,9 +107,34 @@ sub check_args() {
 
 }
 
+sub draw_initial_screen( $ ) {
+
+    my $win = shift;
+
+    $win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
+
+    $win->addstr( $first_line_y - 1,  0, "Host address" );
+    $win->addstr( $first_line_y - 1, 15, "Current [ms]" );
+    $win->addstr( $first_line_y - 1, 30, "History graph" );
+    $win->addstr( $first_line_y - 1, 55, "Success" );
+    $win->addstr( $first_line_y - 1, 65, "Avg [ms]" );
+    $win->addstr( $first_line_y - 1, 75, "Rcvd#" );
+
+    # Print host names / IP addresses
+    my $host_nr = 0;
+    foreach my $host ( @hostlist ) {
+        $win->addstr( $first_line_y + $host_nr, 0, $host );
+        $host_nr++;
+    }
+    $win->refresh;
+
+}
+
 
 ################################################################
-# Main program
+##
+## Main program
+##
 
 # Check command line args
 check_args;
@@ -115,8 +147,6 @@ my $win = new Curses;
 my $ping = Net::Ping->new( "icmp", 0.4 );
 $ping->hires();
 
-# Screen settings
-my $first_line_y = 5;
 # For iterating the host list
 my $host_nr;
 # The history for each host
@@ -129,22 +159,8 @@ $duration_history[$_] = () for (0 .. scalar @hostlist);
 my @received_pings;
 $received_pings[$_] = 0 for (0 .. scalar @hostlist);
 
-$win->addstr( 2, 0, "Hit Ctrl+C to exit anytime." );
-
-$win->addstr( $first_line_y - 1,  0, "Host address" );
-$win->addstr( $first_line_y - 1, 15, "Current [ms]" );
-$win->addstr( $first_line_y - 1, 30, "History graph" );
-$win->addstr( $first_line_y - 1, 55, "Success" );
-$win->addstr( $first_line_y - 1, 65, "Avg [ms]" );
-$win->addstr( $first_line_y - 1, 75, "Rcvd#" );
-
-# Print host names / IP addresses
-$host_nr = 0;
-foreach my $host ( @hostlist ) {
-    $win->addstr( $first_line_y + $host_nr, 0, $host );
-    $host_nr++;
-}
-$win->refresh;
+# Draw initial screen
+draw_initial_screen( $win );
 
 my $loop_nr = 0;
 
