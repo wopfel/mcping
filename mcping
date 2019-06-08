@@ -147,8 +147,6 @@ my $win = new Curses;
 my $ping = Net::Ping->new( "icmp", 0.4 );
 $ping->hires();
 
-# For iterating the host list
-my $host_nr;
 # The history for each host
 my @host_history;
 $host_history[$_] = "" for (0 .. scalar @hostlist);
@@ -169,7 +167,7 @@ while (1) {
 
     # Strip history for each host
     # No screen update here / defer update after next ping check
-    $host_nr = 0;
+    my $host_nr = 0;
     foreach my $host ( @hostlist ) {
         $host_history[ $host_nr ] = substr $host_history[ $host_nr ], -20;
         $win->addstr( $first_line_y + $host_nr, 30, $host_history[ $host_nr ] . " " );
