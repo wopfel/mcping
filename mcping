@@ -61,7 +61,7 @@ sub usage( $ ) {
 
 sub print_help() {
 
-    my $msg = q{Usage: $0  hostname  [hostname [...] ]
+    my $msg = qq{Usage: $0  hostname  [hostname [...] ]
         
         Ping multiple hosts, curses interface
         Copyright (c) 2019 Bernd Arnold
